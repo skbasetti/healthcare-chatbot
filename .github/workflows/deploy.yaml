@@ -63,6 +63,6 @@ jobs:
       run: terraform plan -var="docker_image=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest"
       working-directory: ./terraform
 
-    # - name: Terraform Apply (auto-approve)
-    #   run: terraform apply -auto-approve -var="docker_image=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest"
-    #   working-directory: ./terraform
+    - name: Terraform Apply (auto-approve)
+      run: terraform apply -auto-approve -var="docker_image=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest"
+      working-directory: ./terraform
