@@ -12,7 +12,7 @@ variable "region" {
 variable "repo_name" {
   description = "Artifact Registry Docker repository name"
   type        = string
-  default     = "fastapi-repo"
+  default     = "fastapi-repo-claims"
 }
 
 variable "service_name" {
