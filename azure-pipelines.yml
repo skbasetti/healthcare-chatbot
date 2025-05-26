@@ -1,0 +1,49 @@
+trigger:
+  # - main
+  branches:
+    include:
+      - main
+      - develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  IMAGE_NAME: 'fastapi-health-claims-chatbot'
+  PROJECT_ID: 'astral-outpost-460600-p3'
+  REGION: 'us-central1'
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+
+  - task: DownloadSecureFile@1
+    name: gcpKey
+    inputs:
+      secureFile: 'your-gcp-key.json'  # Upload this in Azure DevOps library
+
+  - script: |
+      echo "Installing gcloud CLI"
+      curl https://sdk.cloud.google.com | bash
+      source $HOME/.bashrc
+      gcloud auth activate-service-account --key-file=$(gcpKey.secureFilePath)
+      gcloud config set project $(PROJECT_ID)
+    displayName: 'Authenticate with GCP'
+
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'your-docker-service-connection'
+      repository: 'gcr.io/$(PROJECT_ID)/$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      tags: |
+        latest
+
+  - script: |
+      gcloud run deploy health-claims-api \
+        --image gcr.io/$(PROJECT_ID)/$(IMAGE_NAME) \
+        --platform managed \
+        --region $(REGION) \
+        --allow-unauthenticated
+    displayName: 'Deploy to Cloud Run'
