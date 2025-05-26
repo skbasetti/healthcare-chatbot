@@ -11,3 +11,7 @@ app.include_router(vertex_ai.router)
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/")
+def home():
+    return {"message": "Welcome to the Health Claims API!"}
