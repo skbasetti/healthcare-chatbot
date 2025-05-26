@@ -7,6 +7,11 @@ resource "google_artifact_registry_repository" "docker_repo" {
   location      = var.region
   repository_id = var.repo_name
   format        = "DOCKER"
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [repository_id] # optional safeguard
+  }
 }
 
 resource "google_service_account" "cloud_run_sa" {
@@ -42,4 +47,11 @@ resource "google_cloud_run_service" "fastapi_service" {
   }
 
   autogenerate_revision_name = true
+}
+
+terraform {
+  backend "gcs" {
+    bucket = "terraform-state-claims-queries"
+    prefix = "health-bot/terraform.tfstate"
+  }
 }
