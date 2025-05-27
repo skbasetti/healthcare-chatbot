@@ -28,7 +28,7 @@ async def ask_gemini(query: str = Query(..., description="The question to ask th
         # --- MODIFICATION FOR DEMO RELIABILITY ---
         # Pick ONE specific Gemini model that you have tested and works in your project/region.
         # Example: "gemini-1.5-flash" or "gemini-1.0-pro"
-        chosen_model_name = "gemini-1.5-flash" # <--- *** REPLACE WITH YOUR TESTED GEMINI MODEL NAME ***
+        chosen_model_name = "gemini-1.5-flash-002" # <--- *** REPLACE WITH YOUR TESTED GEMINI MODEL NAME ***
         
         logger.info(f"Attempting to use Gemini model: {chosen_model_name}")
         
