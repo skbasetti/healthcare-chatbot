@@ -14,7 +14,7 @@ logger = logging.getLogger("uvicorn.error")
 async def ask(query: str = Query(..., description="The question to ask the AI model")) -> Dict[str, str]:
     try:
         project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "astral-outpost-460600-p3")
-        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-south1")
+        location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
         
         # Log startup for debugging
         logger.info(f"Initializing Vertex AI for project={project_id} location={location}")
