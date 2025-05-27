@@ -6,7 +6,7 @@ on:
 
 env:
   PROJECT_ID: astral-outpost-460600-p3
-  REGION: us-south1
+  REGION: us-central1
   REPO_NAME: fastapi-repo
   IMAGE_NAME: health-claims-api
   SERVICE_NAME: health-claims-api
@@ -47,10 +47,10 @@ jobs:
     - name: Check current gcloud auth status
       run: gcloud auth list
 
-    - name: Build and push Docker image
-      run: |
-        docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest ./app
-        docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest
+    # - name: Build and push Docker image
+    #   run: |
+    #     docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest ./app
+    #     docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
