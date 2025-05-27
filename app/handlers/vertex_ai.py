@@ -20,7 +20,7 @@ async def ask(query: str = Query(..., description="The question to ask the AI mo
         logger.info(f"Initializing Vertex AI for project={project_id} location={location}")
         
         vertexai.init(project=project_id, location=location)
-        chat_model = ChatModel.from_pretrained("chat-bison@002")
+        chat_model = ChatModel.from_pretrained("text-bison@002")
         chat = chat_model.start_chat()
         response = chat.send_message(query)
         
