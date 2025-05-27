@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Query
-from vertexai.preview.language_models import ChatModel
+import vertexai
+from vertexai.language_models import ChatModel
 
 router = APIRouter()
 
 @router.get("/ask")
-def ask_vertex_ai(query: str):
+def ask(query: str = Query(...)):
+    vertexai.init(project="astral-outpost-460600-p3", location="us-south1")
     chat_model = ChatModel.from_pretrained("chat-bison@001")
     chat = chat_model.start_chat()
     response = chat.send_message(query)
-    return {"response": response.text}
+    return {"query": query, "response": response.text}
