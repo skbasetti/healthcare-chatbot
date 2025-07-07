@@ -22,7 +22,6 @@ env:
 
 jobs:
   build-and-deploy:
-    if: github.event.inputs.destroy != 'true'  # Only run build-and-deploy if not destroying
     runs-on: ubuntu-latest
 
     steps:
@@ -73,8 +72,13 @@ jobs:
       run: terraform plan -var="docker_image=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest"
       working-directory: ./terraform
 
-    - name: Terraform Apply (auto-approve)
-      run: terraform apply -auto-approve -var="docker_image=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest"
+    # - name: Terraform Apply (auto-approve)
+    #   run: terraform apply -auto-approve -var="docker_image=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest"
+    #   working-directory: ./terraform
+
+    - name: Terraform Destroy
+      if: github.event.inputs.destroy == 'true'
+      run: terraform destroy -auto-approve
       working-directory: ./terraform
 
   # Add destroy job
